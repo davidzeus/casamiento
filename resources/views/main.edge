@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iniciar Sesión - Angie y David</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    .contenedorBody {
+      display: flex;
+      flex-direction: column;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f0f0f0;
+    }
+
+    .login-container {
+      background-color: #f9f3f4;
+      border-radius: 8px;
+      box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    .login-container h2 {
+      margin-bottom: 20px;
+      color: #ff6b6b;
+    }
+
+    .login-input {
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .login-button {
+      background-color: #ff6b6b;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 10px 20px;
+      cursor: pointer;
+    }
+
+    .appear-div {
+      background-color: #42b983;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      margin-top: 20px;
+      display: none;
+       width: 100%;
+      /* Estará oculto inicialmente */
+    }
+  </style>
+</head>
+
+<body>
+  <div class="contenedorBody">
+      <div class="login-container">
+        <h2>Bienvenido!!!</h2>
+        @if(email)
+        {{email}}
+        @end
+      </div>
+
+    <div class="appear-div">
+    Busca el tema que queres que suene agregandolo a la lista de reproducción: <br>
+    <button class="login-button" role="link" onclick="window.location='https://music.youtube.com/playlist?list=PL8MToOKxbwONLOGsrV_ysOfkNvLs3yPZx&jct=Al8b61kZk-11ewm58D6v06xBNsA34Q'">Añadir tema</button>
+    </div>
+  </div>
+</body>
+
+<script>
+  $(document).ready(function() {
+    const transitionDiv = $('.login-container');
+    const appearDiv = $('.appear-div');
+
+    transitionDiv.animate({ top: '-100px' }, 1000, function() {
+      appearDiv.fadeIn(2000); // Hace que el appear-div aparezca después de que termine la animación del transition-div
+    });
+  });
+</script>
+
+</html>
