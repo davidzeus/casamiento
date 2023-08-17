@@ -6,12 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Iniciar Sesión - Angie y David</title>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.rawgit.com/hilios/jQuery.countdown/2.2.0/dist/jquery.countdown.min.js"></script>
   <style>
-    .contenedorBody {
-      display: flex;
-      flex-direction: column;
-    }
-
     body {
       font-family: Arial, sans-serif;
       margin: 0;
@@ -19,8 +15,32 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      min-height: 100vh;
       background-color: #f0f0f0;
+    }
+
+    .contenedorBody {
+      top: 1%;
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .trivia-container {
+      border: solid 1px #ff6b6b;
+    }
+    .countdown-container {
+      background-color: #ff6b6b;
+      color: white;
+      border-radius: 8px;
+      box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+      padding: 10px;
+      margin-bottom: 20px;
+    }
+
+    .countdown-text {
+      margin-bottom: 10px;
     }
 
     .login-container {
@@ -28,9 +48,7 @@
       border-radius: 8px;
       box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
       padding: 20px;
-      width: 100%;
-      max-width: 400px;
-      text-align: center;
+      margin-bottom: 20px;
     }
 
     .login-container h2 {
@@ -43,6 +61,7 @@
       margin: 10px 0;
       border: 1px solid #ccc;
       border-radius: 4px;
+      width: 100%;
     }
 
     .login-button {
@@ -52,6 +71,7 @@
       border-radius: 4px;
       padding: 10px 20px;
       cursor: pointer;
+      width: 100%;
     }
 
     .appear-div {
@@ -59,39 +79,102 @@
       color: white;
       text-align: center;
       padding: 20px;
-      margin-top: 20px;
       display: none;
-       width: 100%;
-      /* Estará oculto inicialmente */
     }
   </style>
 </head>
 
 <body>
   <div class="contenedorBody">
-      <div class="login-container">
-        <h2>Bienvenido!!!</h2>
-        @if(email)
-        {{email}}
-        @end
-      </div>
+    <div class="countdown-container">
+      <h3 class="countdown-text">Faltan:</h3>
+      <div id="countdown"></div>
+    </div>
+    <div class="login-container">
+      <h2>Bienvenido!!!</h2>
+      <p>Muchas gracias por estar acá! Nos alegra mucho que viniste!</p>
+    </div>
 
     <div class="appear-div">
-    Busca el tema que queres que suene agregandolo a la lista de reproducción: <br>
-    <button class="login-button" role="link" onclick="window.location='https://music.youtube.com/playlist?list=PL8MToOKxbwONLOGsrV_ysOfkNvLs3yPZx&jct=Al8b61kZk-11ewm58D6v06xBNsA34Q'">Añadir tema</button>
+      <h3>Mientras esperas, preparamos algo para vos y conozcas nuestra historia.</h3>
+      <p><button class="login-button" role="link">Ver fotos</button></p>
+      <p><button class="login-button" role="link" onclick="window.location='https://music.youtube.com/playlist?list=PL8MToOKxbwONLOGsrV_ysOfkNvLs3yPZx&jct=Al8b61kZk-11ewm58D6v06xBNsA34Q'">Añadir tema</button></p>
+<h3>¿Que tanto nos conoces?</h3>
+      <div class="trivia-container">
+        <h4 class="trivia-question">Pregunta de trivia:</h4>
+        <div class="trivia-options">
+          <label><input type="radio" name="answer" value="a"> Opción A</label>
+          <label><input type="radio" name="answer" value="b"> Opción B</label>
+          <label><input type="radio" name="answer" value="c"> Opción C</label>
+        </div>
+        <br />
+        <button class="login-button" id="checkAnswer">Verificar Respuesta</button>
+        <p id="result"></p>
+      </div>
     </div>
   </div>
+
+  <script>
+    $(document).ready(function () {
+      const transitionDiv = $('.login-container');
+      const appearDiv = $('.appear-div');
+
+      transitionDiv.animate({ top: '-10px' }, 1000, function () {
+        appearDiv.fadeIn(2000);
+      });
+
+      // Configuración del contador de cuenta regresiva
+      $('#countdown').countdown('2023/11/03 20:30', function(event) {
+        $(this).html(event.strftime('%D días %H:%M:%S'));
+      });
+    });
+  </script>
 </body>
 
-<script>
-  $(document).ready(function() {
-    const transitionDiv = $('.login-container');
-    const appearDiv = $('.appear-div');
-
-    transitionDiv.animate({ top: '-100px' }, 1000, function() {
-      appearDiv.fadeIn(2000); // Hace que el appear-div aparezca después de que termine la animación del transition-div
-    });
-  });
-</script>
-
 </html>
+
+
+<script>
+    $(document).ready(function () {
+      const triviaOptions = $('#triviaOptions');
+      const checkAnswerButton = $('#checkAnswer');
+      const resultMessage = $('#result');
+
+      let currentQuestionIndex = 0;
+      let triviaData = [];
+
+      // Cargar datos de trivia desde el archivo JSON
+      $.getJSON('./triviaData.json', function(data) {
+        triviaData = data;
+        displayQuestion(currentQuestionIndex);
+      });
+
+      function displayQuestion(index) {
+        const questionData = triviaData[index];
+        triviaOptions.empty();
+        
+        triviaOptions.append(`<h3 class="trivia-question">${questionData.question}</h3>`);
+        
+        questionData.options.forEach((option, i) => {
+          triviaOptions.append(`<label><input type="radio" name="answer" value="${String.fromCharCode(97 + i)}"> ${option}</label>`);
+        });
+      }
+
+      checkAnswerButton.click(function () {
+        const selectedAnswer = $('input[name=answer]:checked').val();
+        if (selectedAnswer) {
+          if (selectedAnswer === triviaData[currentQuestionIndex].correctAnswer) {
+            resultMessage.text('¡Respuesta correcta!');
+          } else {
+            resultMessage.text('Respuesta incorrecta. La respuesta correcta era ' + triviaData[currentQuestionIndex].correctAnswer.toUpperCase());
+          }
+
+          currentQuestionIndex = (currentQuestionIndex + 1) % triviaData.length;
+          displayQuestion(currentQuestionIndex);
+          resultMessage.fadeOut(0).fadeIn(1000);
+        } else {
+          resultMessage.text('Por favor, selecciona una respuesta.');
+        }
+      });
+    });
+  </script>

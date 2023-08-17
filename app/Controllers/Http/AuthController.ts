@@ -18,6 +18,7 @@ export default class AuthController {
       }
     })
     if (storedEmails.includes(email)) {
+
       return View.render('main', { email })
     } else {
       return View.render('errors.unauthorized')
