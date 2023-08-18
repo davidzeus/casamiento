@@ -101,16 +101,12 @@
       <p><button class="login-button" role="link" onclick="window.location='https://music.youtube.com/playlist?list=PL8MToOKxbwONLOGsrV_ysOfkNvLs3yPZx&jct=Al8b61kZk-11ewm58D6v06xBNsA34Q'">Añadir tema</button></p>
 <h3>¿Que tanto nos conoces?</h3>
       <div class="trivia-container">
-        <h4 class="trivia-question">Pregunta de trivia:</h4>
-        <div class="trivia-options">
-          <label><input type="radio" name="answer" value="a"> Opción A</label>
-          <label><input type="radio" name="answer" value="b"> Opción B</label>
-          <label><input type="radio" name="answer" value="c"> Opción C</label>
-        </div>
-        <br />
-        <button class="login-button" id="checkAnswer">Verificar Respuesta</button>
-        <p id="result"></p>
+      <div class="trivia-options" id="triviaOptions">
       </div>
+      <br />
+      <button id="checkAnswer" class="login-button">Comprobar Respuesta</button>
+      <p class="trivia-result" id="result"></p>
+    </div>
     </div>
   </div>
 
@@ -133,7 +129,9 @@
 
 </html>
 
-
+<script type="application/json" id="quiz-data">
+    {{{trivia}}}
+  </script>
 <script>
     $(document).ready(function () {
       const triviaOptions = $('#triviaOptions');
@@ -141,19 +139,20 @@
       const resultMessage = $('#result');
 
       let currentQuestionIndex = 0;
-      let triviaData = [];
+      const quizDataElement = document.getElementById('quiz-data');
+    const triviaData = JSON.parse(quizDataElement.textContent).trivia;
 
-      // Cargar datos de trivia desde el archivo JSON
-      $.getJSON('./triviaData.json', function(data) {
-        triviaData = data;
+      //console.log(triviaData)
+
+
         displayQuestion(currentQuestionIndex);
-      });
+
 
       function displayQuestion(index) {
         const questionData = triviaData[index];
         triviaOptions.empty();
         
-        triviaOptions.append(`<h3 class="trivia-question">${questionData.question}</h3>`);
+        triviaOptions.append(`<h4 class="trivia-question">${questionData.question}</h4>`);
         
         questionData.options.forEach((option, i) => {
           triviaOptions.append(`<label><input type="radio" name="answer" value="${String.fromCharCode(97 + i)}"> ${option}</label>`);

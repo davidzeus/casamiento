@@ -1,7 +1,8 @@
+/* eslint-disable prettier/prettier */
 //import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import ExcelJS from 'exceljs'
 import View from '@ioc:Adonis/Core/View'
-
+const fs = require('fs')
 export default class AuthController {
   public async login({ request, response }) {
     const { email } = request.all()
@@ -18,8 +19,9 @@ export default class AuthController {
       }
     })
     if (storedEmails.includes(email)) {
-
-      return View.render('main', { email })
+      const trivia = fs.readFileSync('./triviaData.json', 'utf8')
+      //console.log(trivia)
+      return View.render('main', { email, trivia })
     } else {
       return View.render('errors.unauthorized')
     }
