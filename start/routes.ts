@@ -7,3 +7,6 @@ Route.get('/', async ({ view }) => {
 
 //post login
 Route.post('/login', 'AuthController.login').as('login')
+
+// post imagen
+Route.post('/image', 'PostImagesController.up')//.as('login')
