@@ -3,7 +3,6 @@ import Application from '@ioc:Adonis/Core/Application'
 import { DateTime } from 'luxon'
 import fs from 'fs/promises'
 import { join } from 'path'
-import { fsReadAll } from '@ioc:Adonis/Core/Helpers'
 
 export default class PostImagesController {
     public async up(ctx: HttpContextContract) {
