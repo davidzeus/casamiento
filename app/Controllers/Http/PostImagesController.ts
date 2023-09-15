@@ -1,6 +1,9 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Application from '@ioc:Adonis/Core/Application'
 import { DateTime } from 'luxon'
+import fs from 'fs/promises'
+import { join } from 'path'
+import { fsReadAll } from '@ioc:Adonis/Core/Helpers'
 
 export default class PostImagesController {
     public async up(ctx: HttpContextContract) {
@@ -14,6 +17,23 @@ export default class PostImagesController {
                 overwrite: false
             })
         }
+        //return ctx.response.redirect().back()
+    }
+
+    //obtener imagenes
+    public async get(ctx: HttpContextContract) {
+        try {
+            const directorio = Application.publicPath('uploads')
+            const archivos = await fs.readdir(directorio)
+            const imagenes = archivos.filter(async (archivo) =>
+              (await fs.stat(join(directorio, archivo))).isFile()
+            )
+            ctx.response.status(200).json(imagenes)
+          } catch (error) {
+            console.log(error)
+            ctx.response.status(500).json({ error: 'Error al leer el directorio de imágenes' })
+          }
+          
         //return ctx.response.redirect().back()
     }
 }

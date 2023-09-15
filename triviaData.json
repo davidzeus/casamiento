@@ -1,22 +1,22 @@
 {
   "trivia": [
     {
-      "question": "¿Cuál es la capital de Francia?",
+      "question": "¿Cuantos años llevamos de novios?",
       "options": [
-        "París",
-        "Londres",
-        "Madrid"
+        "3",
+        "7",
+        "10"
       ],
-      "correctAnswer": "a"
+      "correctAnswer": "c"
     },
     {
-      "question": "¿Cuál es la capital de Buenos Aires?",
+      "question": "¿Donde nos conocimos?",
       "options": [
-        "La plata",
-        "Cordoba",
-        "Buenos Aires"
+        "En el boliche",
+        "En la escuela",
+        "Por chat"
       ],
-      "correctAnswer": "a"
+      "correctAnswer": "b"
     }
   ]
 }

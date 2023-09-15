@@ -10,3 +10,6 @@ Route.post('/login', 'AuthController.login').as('login')
 
 // post imagen
 Route.post('/image', 'PostImagesController.up')//.as('login')
+
+//obtener imagenes
+Route.get('/images', 'PostImagesController.get')
