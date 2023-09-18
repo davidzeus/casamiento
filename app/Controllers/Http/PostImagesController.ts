@@ -16,7 +16,7 @@ export default class PostImagesController {
                 overwrite: false
             })
         }
-        //return ctx.response.redirect().back()
+        return ctx.response.status(200)
     }
 
     //obtener imagenes

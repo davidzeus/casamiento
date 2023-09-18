@@ -172,7 +172,7 @@
         <button class="square-button" role="link"
           onclick="window.location='https://music.youtube.com/playlist?list=PL8MToOKxbwONLOGsrV_ysOfkNvLs3yPZx&jct=Al8b61kZk-11ewm58D6v06xBNsA34Q'">
           Elegir música</button>
-        <button type="button" role="link" class="square-button" data-toggle="modal" data-target="#exampleModal">
+        <button type="button" class="square-button" data-toggle="modal" data-target="#exampleModal">
           Subir imagenes
         </button>
       </p>
@@ -298,7 +298,7 @@ if (fechaActual >= fechaObjetivo) {
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">subir imagen</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <button type="button" class="close" data-dismiss="modal" id="cerrar" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -323,20 +323,20 @@ if (fechaActual >= fechaObjetivo) {
     const formulario = document.getElementById('imagenUp');
     const formData = new FormData(formulario);
 
-    axios.post('/image', formData)
+    return axios.post('/image', formData)
       .then(function (response) {
         // Aquí puedes actualizar el contenido del modal o mostrar un mensaje de éxito
         alert('Imagen subida con éxito');
         cargarImagenes()
+        cerraModal()
         // Cerrar el modal
-        $('#exampleModal').modal('hide')
       })
       
       .catch(function (error) {
         // Manejar errores
         console.error('Error al subir la imagen', error);
       });
-      $('#exampleModal').modal('hide');
+      cerraModal()
   }
 </script>
 
@@ -384,4 +384,10 @@ if (fechaActual >= fechaObjetivo) {
   cargarImagenes()
 </script>
 
+<script>
+  async function cerraModal(){
+    $('#cerrar').click(); //Esto simula un click sobre el botón close de la modal, por lo que no se debe preocupar por qué clases agregar o qué clases sacar.
+$('.modal-backdrop').remove();//eliminamos el backdrop del modal
+  }
+</script>
 </html>
