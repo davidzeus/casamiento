@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import Route from '@ioc:Adonis/Core/Route'
 
 //pagina de inicio
@@ -13,3 +14,8 @@ Route.post('/image', 'PostImagesController.up')//.as('login')
 
 //obtener imagenes
 Route.get('/images', 'PostImagesController.get')
+
+//portal de cabina de fotos
+Route.get('/cabina/', async ({ view }) => {
+  return view.render('photoBox')
+})
