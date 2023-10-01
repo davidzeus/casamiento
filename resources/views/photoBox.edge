@@ -104,24 +104,37 @@
 
     // Función para capturar la imagen de la cámara
     function captureImage() {
-      const canvas = document.createElement('canvas');
-      const context = canvas.getContext('2d');
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+  const canvas = document.createElement('canvas');
+  const context = canvas.getContext('2d');
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-      // Mostrar la imagen capturada en el div flotante emergente
-      popup.innerHTML = '';
-      const img = new Image();
-      img.src = canvas.toDataURL('image/jpeg'); // Puedes cambiar el formato si es necesario
-      popup.appendChild(img);
-      popup.style.display = 'block';
+  // Convierte la imagen en un objeto Blob
+  canvas.toBlob(function (blob) {
+    const formData = new FormData();
+    formData.append('imagen', blob, 'captura.jpg'); // 'imagen' debe coincidir con el nombre de campo en tu servidor
 
-      // Ocultar el div flotante después de 5 segundos
-      setTimeout(function () {
-        popup.style.display = 'none';
-      }, 5000);
-    }
+    // URL del servidor donde deseas enviar la imagen (reemplázala por tu propia URL)
+    const serverUrl = '/image';
+
+    // Realiza la solicitud POST utilizando Axios
+    axios.post(serverUrl, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+    .then(function (response) {
+      console.log('Imagen capturada guardada con éxito en el servidor:', response.data);
+    })
+    .catch(function (error) {
+      console.error('Error al guardar la imagen capturada en el servidor:', error);
+    });
+  }, 'image/jpeg'); // Puedes cambiar el formato si es necesario
+}
+
+// Llama a la función captureImage() cuando desees capturar y guardar la imagen.
+
 
     // Evento para iniciar la cuenta regresiva al presionar una tecla (por ejemplo, la tecla "A")
     document.addEventListener('keydown', function (event) {
