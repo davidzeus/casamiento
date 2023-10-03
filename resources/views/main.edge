@@ -24,6 +24,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
     integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous">
   </script>
+  <script src='https://meet.jit.si/external_api.js'></script>
 
 
   <style>
@@ -157,8 +158,9 @@
 <body>
   <div class="contenedorBody">
     <div class="countdown-container">
-      <h3 class="countdown-text">Faltan:</h3>
+      <h3 id="falta" class="countdown-text">Faltan:</h3>
       <div id="countdown"></div>
+      <div id="meet" style="display: none;"></div>
     </div>
     <div class="login-container">
       <h2>Bienvenido!!!</h2>
@@ -219,16 +221,30 @@
     $(document).ready(function () {
       const transitionDiv = $('.login-container');
       const appearDiv = $('.appear-div');
-
       transitionDiv.animate({ top: '-10px' }, 1000, function () {
         appearDiv.fadeIn(2000);
       });
 
       // Configuración del contador de cuenta regresiva
-      $('#countdown').countdown('2023/11/03 20:30', function (event) {
+      $('#countdown').countdown('2023/10/03 20:30', function (event) {
         $(this).html(event.strftime('%D días %H:%M:%S'));
       });
     });
+  </script>
+
+  <script>
+    function stream(){
+const domain = 'videosalud.hospitaldeclinicas.uba.ar';
+const options = {
+    roomName: 'prueba1234',
+    width: 310,
+    height: 447,
+    parentNode: document.querySelector('#meet'),
+    interfaceConfigOverwrite: { DISABLE_DOMINANT_SPEAKER_INDICATOR: true,
+    SHOW_JITSI_WATERMARK: false, }
+};
+const api = new JitsiMeetExternalAPI(domain, options);
+}
   </script>
 
   <script>
@@ -237,20 +253,24 @@ const fechaActual = new Date();
 // Define la fecha y hora objetivo
 const fechaObjetivo = new Date('2023/11/03 20:30');
 // Compara la fecha actual con la fecha objetivo
+console.log(fechaActual)
+console.log(fechaObjetivo)
 if (fechaActual >= fechaObjetivo) {
   // Si la fecha actual es mayor o igual a la fecha objetivo, oculta los divs con los IDs "trivia" y "llego la hora!"
-  const divTrivia = document.getElementById('trivia');
-  const divLlegoLaHora = document.getElementById('textoEspera');
-  if (divTrivia && divLlegoLaHora) {
+    console.log('entro al if')
+    $("#countdown").hide()
+    $("#falta").text("Stream")
+    $("#meet").fadeIn(1000)
     $("#trivia").hide()
     $("#textoEspera").text("Llego la hora!!")
-  }
+    stream();
 }
   </script>
 
   <script type="application/json" id="quiz-data">
     {{{trivia}}}
   </script>
+
   <script>
     $(document).ready(function () {
       const triviaOptions = $('#triviaOptions');
@@ -390,4 +410,5 @@ if (fechaActual >= fechaObjetivo) {
 $('.modal-backdrop').remove();//eliminamos el backdrop del modal
   }
 </script>
+
 </html>
