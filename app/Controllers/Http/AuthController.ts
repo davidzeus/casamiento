@@ -20,7 +20,7 @@ export default class AuthController {
     })
     if (storedEmails.includes(email)) {
       const trivia = fs.readFileSync('./triviaData.json', 'utf8')
-      return View.render('main', { email, trivia })
+      return View.render('main2', { email, trivia })
     } else {
       return View.render('errors.unauthorized')
     }
