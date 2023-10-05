@@ -19,3 +19,8 @@ Route.get('/images', 'PostImagesController.get')
 Route.get('/cabina/', async ({ view }) => {
   return view.render('photoBox')
 })
+
+//portal "nosotros"
+Route.get('/about/', async ({ view }) => {
+  return view.render('nosotros')
+})
