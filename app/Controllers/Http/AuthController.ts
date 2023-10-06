@@ -19,8 +19,16 @@ export default class AuthController {
       }
     })
     if (storedEmails.includes(email)) {
-      const trivia = fs.readFileSync('./triviaData.json', 'utf8')
-      return View.render('main2', { email, trivia })
+      // cargo todas las variables
+      const dataHTML = {
+        name1: "Angie",
+        name2: "David",
+        location: "mapa",
+        contact: "David: 1171011639 / Angie: 1164379078",
+        banner: "./banner.jpg"
+        //images: ["/public/image1", "/public/image1"]
+      };
+      return View.render('main3', dataHTML)
     } else {
       return View.render('errors.unauthorized')
     }
