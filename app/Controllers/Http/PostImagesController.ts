@@ -17,8 +17,9 @@ export default class PostImagesController {
           name: uniqueFileName,
           overwrite: false,
         })
+        return ctx.response.status(200).json(uniqueFileName)
       }
-      return ctx.response.status(200)
+      return ctx.response.status(400).json({ message: 'No se proporcionó una imagen' })
     } catch (error) {
       console.log(error)
     }

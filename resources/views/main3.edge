@@ -3,7 +3,15 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Boda de {{name1}} y {{name2}}</title>
+    <title>Boda de Angie y David - Cabina de fotos</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+    </script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://cdn.rawgit.com/hilios/jQuery.countdown/2.2.0/dist/jquery.countdown.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -55,6 +63,7 @@
             background-size: cover;
             background-position: center;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
         }
@@ -62,6 +71,12 @@
         .banner h1 {
             font-size: 64px;
             color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .banner h2 {
+            font-size: 24px;
+            color: black;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
 
@@ -97,6 +112,35 @@
             height: auto;
         }
 
+        .carousel {
+            margin: auto;
+            width: 80%;
+            background-image: url("./fondoGaleria.jpg");
+            background-repeat: no-repeat;
+        }
+
+        .carousel-inner {
+            height: 400px;
+            text-align: center;
+        }
+
+        .carousel-item {
+            height: 400px;
+        }
+
+        .carousel-item>img {
+            height: 100%;
+            width: auto;
+        }
+
+        .buttonFooter {
+            height: 80px;
+            /* background-color: #333; */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
         .footer {
             height: 80px;
             background-color: #333;
@@ -117,23 +161,25 @@
         <div class="header">
             <div class="logo">Bienvenidos</div>
             <ul class="nav">
-                <li><a href="#about">Sobre nosotros</a></li>
-                <li><a href="#location">Ubicación</a></li>
-                <li><a href="#gallery">Galería</a></li>
-                <li><a href="#contact">Contacto</a></li>
+                <li><a class="btn btn-info" href="#about">Sobre nosotros</a></li>
+                <li><a class="btn btn-info" href="#gallery">Galería</a></li>
+                <li><a class="btn btn-info" data-toggle="modal" data-target="#exampleModal">Compartir Imágen</a></li>
+
             </ul>
         </div>
         <div class="banner">
             <h1>{{name1}} & {{name2}}</h1>
+            <h2 id="countdown"></h2>
         </div>
         <div class="main">
             <div class="section" id="about">
                 <h2>Nuestra Historia de Amor</h2>
                 <p>¡Hola a todos!</p>
                 <p>Queremos contarles nuestra historia, una historia que comenzó en el lejano año 2004 en el lugar más
-                    inesperado: el colegio secundario. Al principio éramos simplemente conocidos, dos personas que
+                    inesperado: el colegio secundario.
+                <p>Al principio éramos simplemente conocidos, dos personas que
                     compartían pasillos sin sospechar lo que el destino tenía planeado para nosotros. Ni siquiera nos
-                    dábamos la hora, ¡imaginen eso!</p>
+                    dábamos la hora!</p>
                 <p>Durante un tiempo, nuestras vidas tomaron diferentes rumbos y perdimos comunicación. Cada uno siguió
                     su camino y construyó su vida, hasta que el destino, en su sabiduría, nos volvió a reunir.</p>
                 <p>Con el tiempo, nuestras conversaciones se volvieron más frecuentes y nuestras risas más compartidas.
@@ -153,27 +199,175 @@
                     vidas.</p>
                 <p>Con todo nuestro cariño,<br> Angie y David</p>
             </div>
-            <div class="section" id="location">
-                <h2>Ubicación</h2>
-                <p>{{location}}</p>
-            </div>
             <div class="section" id="gallery">
                 <h2>Galería</h2>
-                <div class="gallery">
-                    @each(image in images)
-                    <img src="{{image}}" alt="">
-                    @endeach
+                <div id="miCarrusel" class="carousel slide" data-ride="carousel">
+                    <!-- Indicadores -->
+                    <ul class="carousel-indicators">
+                        <!-- Indicadores se agregarán dinámicamente aquí -->
+                    </ul>
+
+                    <!-- Imágenes del carrusel -->
+                    <div class="carousel-inner">
+                        <!-- Imágenes se agregarán dinámicamente aquí -->
+                    </div>
+
+                    <!-- Controles del carrusel -->
+                    <a class="carousel-control-prev" href="#miCarrusel" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Anterior</span>
+                    </a>
+                    <a class="carousel-control-next" href="#miCarrusel" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Siguiente</span>
+                    </a>
+                </div>
+                <div class="buttonFooter">
+                    <a class="btn btn-info" data-toggle="modal" data-target="#exampleModal">Compartir Imágen</a>
                 </div>
             </div>
-            <div class="section" id="contact">
-                <h2>Contacto</h2>
-                <p>{{contact}}</p>
-            </div>
+
         </div>
         <div class="footer">
-            <p>© Todos los derechos reservados. Diseñado por Bing.</p>
+            <p><a data-toggle="modal" data-target="#myModal">© Echo con mucho cariño para todos. David Gonzalez.</a></p>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Compartir imágen</h5>
+                        <button type="button" class="close" data-dismiss="modal" id="cerrar" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p><strong>Las imágenes subidas por este medio son pura y exclusivamente privadas,
+                                solo las pueden ver los invitados aquí presentes.</strong></p>
+                        <form id="imagenUp" enctype="multipart/form-data">
+                            <label for="imagen">Selecciona una imagen:</label>
+                            <input type="file" name="imagen" id="imagen" accept="image/*" capture="camera">
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <button type="button" onclick="subirImagen()" class="btn btn-primary">Subir imagen</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel"></h4>
+                    </div>
+                    <div class="modal-body">
+                        <h2>Simplemente Gracias!</h2>
+                        <p>¿Por qué creé este sitio? La verdad es que no lo sé. Supongo que, al ser un día tan especial
+                            para mí, quería dejar mi marca personal. Y así surgió la idea de este sitio interactivo.
+                            Quería que ustedes también
+                            fueran parte de la interacción y, por eso, estoy muy agradecido de que hayas llegado hasta
+                            aquí. Si leíste esto, ¡etiquétame! 😊</p>
+                        <p>Un abrazo con cariño, David González</p>
+                        <p><strong>PD: Todas la imagenes y/o videos hoy tomados, los compartiré en la semana con el
+                                email que confirmaste.</strong></p>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </body>
 
 </html>
+
+<script>
+    async function cargarImagenes() {
+    try {
+        const response = await axios.get('/images');
+        const imagenes = response.data;
+        const carrusel = document.getElementById('miCarrusel');
+        const carouselInner = carrusel.querySelector('.carousel-inner');
+        const carouselIndicators = carrusel.querySelector('.carousel-indicators');
+        carouselInner.innerHTML = ''; // Limpiar las imágenes existentes
+        carouselIndicators.innerHTML = ''; // Limpiar los indicadores existentes
+
+        imagenes.forEach((imagen, index) => {
+        const item = document.createElement('div');
+        item.classList.add('carousel-item');
+        const img = document.createElement('img');
+        /* img.style.transform = "rotate(-90deg)";
+        img.style.width = "100%"; */
+        img.src = '/uploads/' + imagen;
+        img.alt = 'Imagen ' + (index + 1);
+        const indicator = document.createElement('li');
+        indicator.setAttribute('data-target', '#miCarrusel');
+        indicator.setAttribute('data-slide-to', index.toString());
+        if (index === imagenes.length - 1) {
+            item.classList.add('active'); // La última imagen es activa por defecto
+            indicator.classList.add('active'); // El último indicador es activo por defecto
+        }
+        item.appendChild(img);
+        carouselInner.appendChild(item);
+        carouselIndicators.appendChild(indicator);
+        });
+    } catch (error) {
+      console.error('Error al cargar las imágenes', error)
+    }
+  }
+  cargarImagenes();
+    //bucle cada 10 seg
+    const intervalId = setInterval(cargarImagenes, 10000);
+</script>
+
+<script>
+    $(document).ready(function () {
+      const transitionDiv = $('.container');
+      const appearDiv = $('.banner');
+      transitionDiv.animate({ top: '-10px' }, 1000, function () {
+        appearDiv.fadeIn(2000);
+      });
+      // Configuración del contador de cuenta regresiva
+      $('#countdown').countdown('2023/11/03 20:30', function (event) {
+        $(this).html(event.strftime('%D días %H:%M:%S'));
+      });
+    });
+</script>
+
+<script>
+    async function cerraModal(){
+    $('#cerrar').click(); //Esto simula un click sobre el botón close de la modal, por lo que no se debe preocupar por qué clases agregar o qué clases sacar.
+$('.modal-backdrop').remove();//eliminamos el backdrop del modal
+  }
+</script>
+
+<script>
+    function subirImagen() {
+    const formulario = document.getElementById('imagenUp');
+    const formData = new FormData(formulario);
+
+    return axios.post('/image', formData)
+      .then(function (response) {
+        // Aquí puedes actualizar el contenido del modal o mostrar un mensaje de éxito
+        alert('Imagen subida con éxito');
+        cargarImagenes()
+        cerraModal()
+        // Cerrar el modal
+      })
+      
+      .catch(function (error) {
+        // Manejar errores
+        console.error('Error al subir la imagen', error);
+      });
+      cerraModal()
+  }
+</script>
