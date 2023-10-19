@@ -7,7 +7,7 @@ export default class AuthController {
     const { email } = request.all()
     // Validar con el archivo Excel
     const workbook = new ExcelJS.Workbook()
-    await workbook.xlsx.readFile('Copia_de_Confirmacion.xlsx') // Ruta al archivo Excel
+    await workbook.xlsx.readFile('Confirmacion.xlsx') // Ruta al archivo Excel
     const worksheet = workbook.getWorksheet(1)
 
     let storedEmails: any = []
