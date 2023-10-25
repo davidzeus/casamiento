@@ -2,13 +2,12 @@
 //import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import ExcelJS from 'exceljs'
 import View from '@ioc:Adonis/Core/View'
-const fs = require('fs')
 export default class AuthController {
   public async login({ request, response }) {
     const { email } = request.all()
     // Validar con el archivo Excel
     const workbook = new ExcelJS.Workbook()
-    await workbook.xlsx.readFile('Copia_de_Confirmacion.xlsx') // Ruta al archivo Excel
+    await workbook.xlsx.readFile('Confirmacion.xlsx') // Ruta al archivo Excel
     const worksheet = workbook.getWorksheet(1)
 
     let storedEmails: any = []
@@ -19,8 +18,13 @@ export default class AuthController {
       }
     })
     if (storedEmails.includes(email)) {
-      const trivia = fs.readFileSync('./triviaData.json', 'utf8')
-      return View.render('main2', { email, trivia })
+      // cargo todas las variables
+      const dataHTML = {
+        name1: "Angie",
+        name2: "David",
+        banner: "./banner4.jpg"
+      };
+      return View.render('main3', dataHTML)
     } else {
       return View.render('errors.unauthorized')
     }

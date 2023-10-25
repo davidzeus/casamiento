@@ -2,75 +2,119 @@
 <html lang="es">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciar Sesión - Angie y David</title>
-    <!-- Optional JavaScript -->
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
-    </script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.rawgit.com/hilios/jQuery.countdown/2.2.0/dist/jquery.countdown.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
-        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
-        integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous">
-    </script>
+  <meta charset="UTF-8">
+  <title>Boda de Angie y David</title>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+  </script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <script src="https://cdn.rawgit.com/hilios/jQuery.countdown/2.2.0/dist/jquery.countdown.min.js"></script>
 </head>
 <style>
-    /* Estilos para el div flotante emergente */
-    #popup {
-        display: none;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background-color: white;
-        border: 1px solid #ccc;
-        padding: 20px;
-        z-index: 9999;
-    }
+  body {
+    background-color: black;
+  }
 
-    /* Estilo de la clase para la cuenta regresiva */
-    .countdown-box {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        font-size: 2em;
-        z-index: 9999;
-        background-color: rgba(0, 0, 0, 0.8);
-        color: #ffffff;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-        text-align: center;
-        opacity: 1;
-        transition: opacity 0.3s;
-    }
+  h2 {
+    color: #fff;
+  }
+
+  .rotated-page {
+    transform: rotate(-90deg);
+    transform-origin: left top;
+    width: 100vh;
+    height: 100vw;
+    position: absolute;
+    top: 100%;
+  }
+
+  .banner {
+    height: 150px;
+    background-color: grey;
+    /* background-image: url("./banner4.jpg"); */
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .banner h1 {
+    font-size: 64px;
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  }
+
+  #popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 20px;
+    z-index: 9999;
+  }
+
+  .cameraDiv {
+    /* margin-top: 15%; */
+    padding-top: 20px;
+    width: 100%;
+    height: auto;
+  }
+
+  .countdown-box {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2em;
+    z-index: 9999;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    opacity: 1;
+    transition: opacity 0.3s;
+    display: none;
+  }
+
+  #flash {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background-color: white;
+  }
 </style>
 
-<body>
-    <div class="container-flex">
+<body class="rotated-page">
+  <div class="container">
+    <div class="banner">
+      <h1>Sacate fotos!</h1>
+    </div>
+    <video class="cameraDiv" id="camera-preview" autoplay playsinline></video>
+    <div class="countdown-box" id="count">
+      Foto en...
+      <span id="regresiva"></span>
+    </div>
+    <div id="flashScreen"
+      style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; display: none;">
+    </div>
+    <div id="popup" {{-- class="rotated-page" --}}>
+      <img id="imagenPrevista" src="" alt="Vista previa de la imagen" />
+      <p>Se cierra automaticamente</p>
+    </div>
 
-        <h1>Captura de Imagen</h1>
 
-        <!-- Vista previa de la cámara -->
-        <video id="camera-preview" autoplay></video>
-    <a class="countdown-box" id="regresiva">Foto en...</a>
-        <!-- Div flotante emergente para mostrar la imagen capturada -->
-        <div id="popup"></div>
-
-        <script>
-            const video = document.getElementById('camera-preview');
+    <script>
+      const video = document.getElementById('camera-preview');
     const popup = document.getElementById('popup');
     let countdownInterval;
     let countdownSeconds = 5;
@@ -81,6 +125,8 @@
       .then(function (stream) {
         video.srcObject = stream;
         video.play();
+        video.style.width = "100%";
+        //video.style.transform = "rotate(+90deg)";
       })
       .catch(function (error) {
         console.error('Error al acceder a la cámara:', error);
@@ -93,7 +139,7 @@
       countdownInterval = setInterval(function () {
         countdownSeconds--;
         if (countdownSeconds >= 0) {
-          console.log('Cuenta regresiva:', countdownSeconds);
+          $('#count').css('display','block');
           $("#regresiva").text(countdownSeconds);
         } else {
           clearInterval(countdownInterval);
@@ -103,38 +149,44 @@
     }
 
     // Función para capturar la imagen de la cámara
-    function captureImage() {
-  const canvas = document.createElement('canvas');
-  const context = canvas.getContext('2d');
-  canvas.width = video.videoWidth;
-  canvas.height = video.videoHeight;
-  context.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-  // Convierte la imagen en un objeto Blob
-  canvas.toBlob(function (blob) {
-    const formData = new FormData();
-    formData.append('imagen', blob, 'captura.jpg'); // 'imagen' debe coincidir con el nombre de campo en tu servidor
-
-    // URL del servidor donde deseas enviar la imagen (reemplázala por tu propia URL)
-    const serverUrl = '/image';
-
-    // Realiza la solicitud POST utilizando Axios
-    axios.post(serverUrl, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    })
-    .then(function (response) {
-      console.log('Imagen capturada guardada con éxito en el servidor:', response.data);
-    })
-    .catch(function (error) {
-      console.error('Error al guardar la imagen capturada en el servidor:', error);
-    });
-  }, 'image/jpeg'); // Puedes cambiar el formato si es necesario
+function captureImage() {
+  const flashScreen = $('#flashScreen');
+  const popup = $('#popup');
+  flashScreen.css('display', 'block'); // Mostrar el flash blanco
+  // Esperar 1 segundo para simular el flash
+  setTimeout(function () {
+    flashScreen.css('display', 'none'); // Ocultar el flash blanco
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d');
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+    canvas.toBlob(function (blob) {
+      const formData = new FormData();
+      formData.append('imagen', blob, 'captura.jpg');
+      const serverUrl = '/image';
+      axios.post(serverUrl, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      .then(function (response) {
+        setTimeout(function () {
+          popup.css('display', 'block');
+          const imageUrl = `./uploads/${response.data}`;
+          $('#imagenPrevista').attr('src', imageUrl);
+        }, 1000); 
+        setTimeout(function () {
+          popup.css('display', 'none');
+          $('#count').css('display','none');
+        }, 5000); 
+      })
+      .catch(function (error) {
+        console.error('Error al guardar la imagen capturada en el servidor:', error);
+      });
+    }, 'image/jpeg');
+  }, 1000); // 1000 milisegundos = 1 segundo
 }
-
-// Llama a la función captureImage() cuando desees capturar y guardar la imagen.
-
 
     // Evento para iniciar la cuenta regresiva al presionar una tecla (por ejemplo, la tecla "A")
     document.addEventListener('keydown', function (event) {
@@ -142,11 +194,8 @@
         startCountdownAndCapture();
       }
     });
-
-
-        </script>
-
-    </div>
+    </script>
+  </div>
 </body>
 
 </html>

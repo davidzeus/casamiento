@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Boda de Angie y David - Cabina de fotos</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+    </script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://cdn.rawgit.com/hilios/jQuery.countdown/2.2.0/dist/jquery.countdown.min.js"></script>
+    <script src='https://meet.jit.si/external_api.js'></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            height: 80px;
+            background-color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .nav {
+            list-style: none;
+            display: flex;
+        }
+
+        .nav li {
+            margin-left: 20px;
+        }
+
+        .nav a {
+            text-decoration: none;
+            color: #333;
+        }
+
+        .banner {
+            height: 350px;
+            background-image: url("{{banner}}");
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .banner h1 {
+            font-size: 64px;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .banner h2 {
+            font-size: 24px;
+            color: black;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .h2Titulo {
+            color: #fff;
+        }
+
+        .main {
+            padding: 40px 0;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section h2 {
+            font-size: 36px;
+            color: #333;
+            text-align: center;
+        }
+
+        .section p {
+            font-size: 18px;
+            color: #333;
+            line-height: 1.5;
+            text-align: justify;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-gap: 20px;
+        }
+
+        .gallery img {
+            width: 100%;
+            height: auto;
+        }
+
+        .carousel {
+            margin: auto;
+            width: 80%;
+            background-image: url("./fondoGaleria.jpg");
+            background-repeat: no-repeat;
+        }
+
+        .carousel-inner {
+            height: 400px;
+            text-align: center;
+        }
+
+        .carousel-item {
+            height: 400px;
+        }
+
+        .carousel-item>img {
+            height: 100%;
+            width: auto;
+        }
+
+        .buttonFooter {
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .footer {
+            height: 80px;
+            background-color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .footer p {
+            font-size: 18px;
+            color: #fff;
+        }
+
+        .scroll-to-top {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #007bff;
+            color: #fff;
+            font-size: 24px;
+            width: 40px;
+            height: 40px;
+            text-align: center;
+            line-height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .scroll-to-top {
+                display: block;
+            }
+        }
+        .scroll-to-top:hover {
+            background-color: #0056b3;
+        }
+
+        @media (max-width: 576px) {}
+
+        @media (min-width: 576px) and (max-width: 768px) {}
+
+        @media (min-width: 768px) and (max-width: 992px) {}
+
+        @media (max-width: 768px) {
+            .banner {
+                background-image: url("./banner_mini.jpg");
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03"
+                aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="navbar-brand">
+                <h2 class="h2Titulo"><a data-toggle="modal" data-target="#myModal">Bienvenidos</a></h2>
+            </a>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+                <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                    <li class="nav-item"><a class="btn btn-danger" id="vivo" style="display: none;" data-toggle="modal"
+                            data-target="#jitsi">En vivo</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#about">Sobre nosotros</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#gallery">Galería</a></li>
+                    <li class="nav-item"><a class="nav-link" data-toggle="modal" data-target="#exampleModal">Compartir
+                            Imágen</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <div class="banner">
+            <h1>{{name1}} & {{name2}}</h1>
+            <h2 id="countdown"></h2>
+        </div>
+        <div class="main">
+            <div class="section" id="about">
+                <h2>Nuestra Historia de Amor</h2>
+                <p>¡Hola a todos!</p>
+                <p>Queremos contarles nuestra historia, una historia que comenzó en el lejano año 2004 en el lugar más
+                    inesperado: el colegio secundario.
+                <p>Al principio éramos simplemente conocidos, dos personas que
+                    compartían pasillos sin sospechar lo que el destino tenía planeado para nosotros. Ni siquiera nos
+                    dábamos la hora!</p>
+                <p>Durante un tiempo, nuestras vidas tomaron diferentes rumbos y perdimos comunicación. Cada uno siguió
+                    su camino y construyó su vida, hasta que el destino, en su sabiduría, nos volvió a reunir.</p>
+                <p>Con el tiempo, nuestras conversaciones se volvieron más frecuentes y nuestras risas más compartidas.
+                    Nos convertimos en amigos, pero fue ella quien dio el valiente primer paso hacia lo que sería una
+                    hermosa historia de amor.</p>
+                <p>En 2013 formalizamos nuestra relación, dando un paso importante en nuestro camino juntos.</p>
+                <p>En 2018, nuestra historia de amor se enriqueció con la llegada de nuestra hija Candela. Nuestra
+                    pequeña princesa se convirtió en el vínculo más fuerte que jamás hubiéramos imaginado. Conocimos
+                    nuevos aspectos de nosotros mismos, descubrimos nuestras facetas de padres y nos dimos cuenta de que
+                    estábamos unidos por un propósito común: cuidar, amar y guiar a nuestra preciosa hija durante toda
+                    su vida.</p>
+                <p>Hoy, después de una década juntos, estamos aquí celebrando no solo nuestra unión como pareja sino
+                    también nuestro matrimonio. No hay más excusas, solo amor y gratitud por cada momento compartido.
+                </p>
+                <p>Queremos agradecerles por ser parte de esta celebración y por ser testigos de nuestra historia de
+                    amor. Los invitamos a disfrutar de esta fiesta con nosotros y a seguir siendo parte de nuestras
+                    vidas.</p>
+                <p>Con todo nuestro cariño,<br> Angie y David</p>
+            </div>
+            <div class="section" id="gallery">
+                <h2>Galería</h2>
+                <div id="miCarrusel" class="carousel slide" data-ride="carousel">
+                    <ul class="carousel-indicators">
+                    </ul>
+                    <div class="carousel-inner">
+                    </div>
+                    <a class="carousel-control-prev" href="#miCarrusel" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Anterior</span>
+                    </a>
+                    <a class="carousel-control-next" href="#miCarrusel" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Siguiente</span>
+                    </a>
+                </div>
+                <div class="buttonFooter">
+                    <a class="btn btn-info" data-toggle="modal" data-target="#exampleModal">Compartir Imágen</a>
+                </div>
+            </div>
+
+        </div>
+        <div class="footer">
+            <p><a data-toggle="modal" data-target="#myModal">© Echo con mucho cariño para todos. David Gonzalez.</a></p>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Compartir imágen</h5>
+                        <button type="button" class="close" data-dismiss="modal" id="cerrar" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p><strong>Las imágenes subidas por este medio son pura y exclusivamente privadas,
+                                solo las pueden ver los invitados aquí presentes.</strong></p>
+                        <form id="imagenUp" enctype="multipart/form-data">
+                            <label for="imagen">Selecciona una imagen:</label>
+                            <input type="file" name="imagen" id="imagen" accept="image/*" capture="camera">
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <button type="button" onclick="subirImagen()" class="btn btn-primary">Subir imagen</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel"></h4>
+                    </div>
+                    <div class="modal-body">
+                        <h2>Simplemente Gracias!</h2>
+                        <p>¿Por qué creé este sitio? La verdad es que no lo sé. Supongo que, al ser un día tan especial
+                            para mí, quería dejar mi marca personal. Y así surgió la idea de este sitio interactivo.
+                            Quería que ustedes también
+                            fueran parte de la interacción y, por eso, estoy muy agradecido de que hayas llegado hasta
+                            aquí. Si leíste esto, ¡etiquétame! 😊</p>
+                        <p>Un abrazo con cariño, David González</p>
+                        <p><strong>PD: Todas la imagenes y/o videos hoy tomados, los compartiré en la semana con el
+                                email que confirmaste.</strong></p>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Modal Jitsi -->
+        <div class="modal fade" id="jitsi" tabindex="-1" role="dialog" aria-labelledby="jitsi">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="jitsi">En vivo</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Solo seleccionar: "Iniciar en el navegador"</p>
+                        <div id="stream"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a href="#" class="scroll-to-top">↑</a>
+</body>
+
+</html>
+
+<script>
+    async function cargarImagenes() {
+    try {
+        const response = await axios.get('/images');
+        const imagenes = response.data;
+        const carrusel = document.getElementById('miCarrusel');
+        const carouselInner = carrusel.querySelector('.carousel-inner');
+        const carouselIndicators = carrusel.querySelector('.carousel-indicators');
+        carouselInner.innerHTML = ''; // Limpiar las imágenes existentes
+        carouselIndicators.innerHTML = ''; // Limpiar los indicadores existentes
+
+        imagenes.forEach((imagen, index) => {
+        const item = document.createElement('div');
+        item.classList.add('carousel-item');
+        const img = document.createElement('img');
+        /* img.style.transform = "rotate(-90deg)";
+        img.style.width = "100%"; */
+        img.src = '/uploads/' + imagen;
+        img.alt = 'Imagen ' + (index + 1);
+        const indicator = document.createElement('li');
+        indicator.setAttribute('data-target', '#miCarrusel');
+        indicator.setAttribute('data-slide-to', index.toString());
+        if (index === imagenes.length - 1) {
+            item.classList.add('active'); // La última imagen es activa por defecto
+            indicator.classList.add('active'); // El último indicador es activo por defecto
+        }
+        item.appendChild(img);
+        carouselInner.appendChild(item);
+        carouselIndicators.appendChild(indicator);
+        });
+    } catch (error) {
+      console.error('Error al cargar las imágenes', error)
+    }
+  }
+  cargarImagenes();
+    //bucle cada 10 seg
+    const intervalId = setInterval(cargarImagenes, 10000);
+</script>
+
+<script>
+    function stream(){
+         $('#jitsi').modal({ show:true });
+    const domain = 'videosalud.hospitaldeclinicas.uba.ar';
+    const options = {
+        roomName: 'prueba1234',
+        width: 400,
+        height: 500,
+        parentNode: document.querySelector('#stream'),
+        interfaceConfigOverwrite: { DISABLE_DOMINANT_SPEAKER_INDICATOR: true,
+        SHOW_JITSI_WATERMARK: false, }
+    };
+    const api = new JitsiMeetExternalAPI(domain, options);
+    //agrega boton
+    $("#vivo").show();
+    }
+</script>
+
+<script>
+    $(document).ready(function () {
+        let llegoLaHora = false
+      const transitionDiv = $('.container');
+      const appearDiv = $('.banner');
+      transitionDiv.animate({ top: '-10px' }, 1000, function () {
+        appearDiv.fadeIn(2000);
+      });
+      // Configuración del contador de cuenta regresiva
+      $('#countdown').countdown('2023/11/03 20:30', function (event) {
+        $(this).html(event.strftime('%D días %H:%M:%S'));
+        if(event.strftime('%D %H:%M:%S') == '00 00:00:00'){
+            llegoLaHora = true
+        }
+      });
+      if (llegoLaHora != false){
+        stream();
+      }
+    });
+</script>
+
+<script>
+    async function cerraModal(){
+    $('#cerrar').click(); //Esto simula un click sobre el botón close de la modal, por lo que no se debe preocupar por qué clases agregar o qué clases sacar.
+$('.modal-backdrop').remove();//eliminamos el backdrop del modal
+  }
+</script>
+
+<script>
+    function subirImagen() {
+    const formulario = document.getElementById('imagenUp');
+    const formData = new FormData(formulario);
+
+    return axios.post('/image', formData)
+      .then(function (response) {
+        // Aquí puedes actualizar el contenido del modal o mostrar un mensaje de éxito
+        alert('Imagen subida con éxito');
+        cargarImagenes()
+        cerraModal()
+        // Cerrar el modal
+      })
+      
+      .catch(function (error) {
+        // Manejar errores
+        console.error('Error al subir la imagen', error);
+      });
+      cerraModal()
+  }
+</script>
