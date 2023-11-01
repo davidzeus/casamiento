@@ -33,7 +33,7 @@
 
   .banner {
     height: 150px;
-    background-color: grey;
+    background-color: #f9f3f4;
     /* background-image: url("./banner4.jpg"); */
     background-size: cover;
     background-position: center;
@@ -45,7 +45,7 @@
 
   .banner h1 {
     font-size: 64px;
-    color: #fff;
+    color: #ff6b6b;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   }
 
@@ -97,7 +97,7 @@
 <body class="rotated-page">
   <div class="container">
     <div class="banner">
-      <h1>Sacate fotos!</h1>
+      <h1>FOTOS</h1>
     </div>
     <video class="cameraDiv" id="camera-preview" autoplay playsinline></video>
     <div class="countdown-box" id="count">
@@ -189,10 +189,8 @@ function captureImage() {
 }
 
     // Evento para iniciar la cuenta regresiva al presionar una tecla (por ejemplo, la tecla "A")
-    document.addEventListener('keydown', function (event) {
-      if (event.key == ' ') {
-        startCountdownAndCapture();
-      }
+    document.addEventListener('click', function (event) {
+      startCountdownAndCapture();
     });
     </script>
   </div>
