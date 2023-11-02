@@ -61,10 +61,12 @@
         }
 
         .banner {
+            margin-top: 62px;
             height: 350px;
             background-image: url("{{banner}}");
+            width: 100%;
+            background-repeat: no-repeat;
             background-size: cover;
-            background-position: center;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -191,15 +193,19 @@
 
         @media (min-width: 768px) and (max-width: 992px) {}
 
-        @media (max-width: 768px) {
+        /*@media (max-width: 768px) {
             .banner {
                 background-image: url("./banner_mini.jpg");
             }
-        }
+        }*/
     </style>
 </head>
 
 <body>
+    <div class="banner">
+        <h1>{{name1}} & {{name2}}</h1>
+        <h2 id="countdown"></h2>
+    </div>
     <div class="container">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03"
@@ -222,10 +228,6 @@
                 </ul>
             </div>
         </nav>
-        <div class="banner">
-            <h1>{{name1}} & {{name2}}</h1>
-            <h2 id="countdown"></h2>
-        </div>
         <div class="main">
             <div class="section" id="about">
                 <h2>Nuestra Historia de Amor</h2>
@@ -282,9 +284,6 @@
                 <p>Alias: yoangielamaslindaa</p>
             </div>
 
-        </div>
-        <div class="footer">
-            <p><a data-toggle="modal" data-target="#myModal">© Echo con mucho cariño para todos. David Gonzalez.</a></p>
         </div>
         <!-- Modal -->
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -361,6 +360,10 @@
 
     </div>
 
+    <div class="footer">
+        <p><a data-toggle="modal" data-target="#myModal">© Echo con mucho cariño para todos. David Gonzalez.</a></p>
+    </div>
+
     <a href="#" class="scroll-to-top">↑</a>
 </body>
 
@@ -374,35 +377,60 @@
         const carrusel = document.getElementById('miCarrusel');
         const carouselInner = carrusel.querySelector('.carousel-inner');
         const carouselIndicators = carrusel.querySelector('.carousel-indicators');
-        carouselInner.innerHTML = ''; // Limpiar las imágenes existentes
-        carouselIndicators.innerHTML = ''; // Limpiar los indicadores existentes
+        //carouselInner.innerHTML = ''; // Limpiar las imágenes existentes
+        //carouselIndicators.innerHTML = ''; // Limpiar los indicadores existentes
+        const previusImages = getLocalStorageItem('imagenes') ? getLocalStorageItem('imagenes') : [];
 
-        imagenes.forEach((imagen, index) => {
-        const item = document.createElement('div');
-        item.classList.add('carousel-item');
-        const img = document.createElement('img');
-        /* img.style.transform = "rotate(-90deg)";
-        img.style.width = "100%"; */
-        img.src = '/uploads/' + imagen;
-        img.alt = 'Imagen ' + (index + 1);
-        const indicator = document.createElement('li');
-        indicator.setAttribute('data-target', '#miCarrusel');
-        indicator.setAttribute('data-slide-to', index.toString());
-        if (index === imagenes.length - 1) {
-            item.classList.add('active'); // La última imagen es activa por defecto
-            indicator.classList.add('active'); // El último indicador es activo por defecto
+        for(let i = 0; i < imagenes.length; i++){
+            let imagen = imagenes[i];
+            let index = i;
+            
+            if(!previusImages.find(img => img === imagen)){
+                const item = document.createElement('div');
+                item.classList.add('carousel-item');
+                const img = document.createElement('img');
+                /* img.style.transform = "rotate(-90deg)";
+                img.style.width = "100%"; */
+                img.src = '/uploads/' + imagen;
+                img.alt = 'Imagen ' + (index + 1);
+                const indicator = document.createElement('li');
+                indicator.setAttribute('data-target', '#miCarrusel');
+                indicator.setAttribute('data-slide-to', index.toString());
+                if (index === imagenes.length - 1) {
+                    item.classList.add('active'); // La última imagen es activa por defecto
+                    indicator.classList.add('active'); // El último indicador es activo por defecto
+                }
+                item.appendChild(img);
+                carouselInner.appendChild(item);
+                carouselIndicators.appendChild(indicator);
+            }
+        };
+
+        if(imagenes.length){
+            setLocalStorageItem('imagenes', imagenes)
         }
-        item.appendChild(img);
-        carouselInner.appendChild(item);
-        carouselIndicators.appendChild(indicator);
-        });
     } catch (error) {
       console.error('Error al cargar las imágenes', error)
     }
   }
-  cargarImagenes();
+
+    setLocalStorageItem('imagenes', []);
+
+    cargarImagenes();
     //bucle cada 10 seg
     const intervalId = setInterval(cargarImagenes, 10000);
+
+    
+    // Función para establecer un valor en localStorage
+    function setLocalStorageItem(key, value) {
+      localStorage.setItem(key, JSON.stringify(value));
+    }
+
+    // Función para obtener un valor de localStorage
+    function getLocalStorageItem(key) {
+      const storedValue = localStorage.getItem(key);
+      return storedValue ? JSON.parse(storedValue) : null;
+    }
 </script>
 
 <script>

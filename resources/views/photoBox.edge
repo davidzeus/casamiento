@@ -73,13 +73,13 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 2em;
+    font-size: 10em;
     z-index: 9999;
-    background-color: rgba(0, 0, 0, 0.8);
+    /* background-color: rgba(0, 0, 0, 0.8); */
     color: #ffffff;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); */
     text-align: center;
     opacity: 1;
     transition: opacity 0.3s;
@@ -92,6 +92,37 @@
     height: 100%;
     background-color: white;
   }
+
+  .flecha-flotante {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    animation: arrowAnimation 1s ease-out infinite;
+    padding: 0;
+    margin: 0;
+  }
+
+  .flecha-flotante p {
+    color: #fff;
+    font-size: 30px;
+  }
+
+  @keyframes arrowAnimation {
+      0% {
+        bottom: 0;
+      }
+      50% {
+        bottom: 30px;
+      }
+      100% {
+        bottom: 0;
+      }
+    }
 </style>
 
 <body class="rotated-page">
@@ -101,7 +132,6 @@
     </div>
     <video class="cameraDiv" id="camera-preview" autoplay playsinline></video>
     <div class="countdown-box" id="count">
-      Foto en...
       <span id="regresiva"></span>
     </div>
     <div id="flashScreen"
@@ -110,6 +140,15 @@
     <div id="popup" {{-- class="rotated-page" --}}>
       <img id="imagenPrevista" src="" alt="Vista previa de la imagen" />
       <p>Se cierra automaticamente</p>
+    </div>
+    <div class="flecha-flotante">
+      <p>Presione el boton para capturar la imagen</p>
+      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-big-down-lines" width="80" height="80" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+        <path d="M15 12h3.586a1 1 0 0 1 .707 1.707l-6.586 6.586a1 1 0 0 1 -1.414 0l-6.586 -6.586a1 1 0 0 1 .707 -1.707h3.586v-3h6v3z" />
+        <path d="M15 3h-6" />
+        <path d="M15 6h-6" />
+      </svg>
     </div>
 
 
@@ -135,6 +174,7 @@
     // Función para iniciar la cuenta regresiva y capturar la imagen
     function startCountdownAndCapture() {
       // Iniciar la cuenta regresiva de 5 segundos
+      $('.flecha-flotante').css('display', 'none');
       countdownSeconds = 5;
       countdownInterval = setInterval(function () {
         countdownSeconds--;
@@ -179,6 +219,8 @@ function captureImage() {
         setTimeout(function () {
           popup.css('display', 'none');
           $('#count').css('display','none');
+          $('.flecha-flotante').css('display', 'flex');
+          setLocalStorageItem('capture', false);
         }, 5000); 
       })
       .catch(function (error) {
@@ -190,8 +232,21 @@ function captureImage() {
 
     // Evento para iniciar la cuenta regresiva al presionar una tecla (por ejemplo, la tecla "A")
     document.addEventListener('click', function (event) {
-      startCountdownAndCapture();
+      if(!getLocalStorageItem('capture'))
+        startCountdownAndCapture();
+        setLocalStorageItem('capture', true);
     });
+
+    // Función para establecer un valor en localStorage
+    function setLocalStorageItem(key, value) {
+      localStorage.setItem(key, JSON.stringify(value));
+    }
+
+    // Función para obtener un valor de localStorage
+    function getLocalStorageItem(key) {
+      const storedValue = localStorage.getItem(key);
+      return storedValue ? JSON.parse(storedValue) : null;
+    }
     </script>
   </div>
 </body>

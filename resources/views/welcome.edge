@@ -23,7 +23,7 @@
     }
 
     .login-container {
-      background-color: #f9f3f4;
+      background-color: #fff;
       border-radius: 8px;
       box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
       padding: 20px;
@@ -58,14 +58,15 @@
 <body>
 <div class="contenedorBody">
   <div class="login-container">
-    <h2>Iniciar</h2>
-    <p><small>Usa el email con el que confirmaste la asistencia.</small></p>
+    <h2>Acceder</h2>
+    <p> Ingrese su email con el que confirmo la asistencia</p>
     @if(email)
       {{email}}
     @end
     
     <form action="/login" method="POST">
-      <input type="email" name="email" class="login-input" placeholder="Ingrese el email " required>
+      <input type="email" name="email" class="login-input" placeholder="Ej: hola@gmail.com" required>
+      <br>
       <button type="submit" class="login-button">Iniciar</button>
     </form>
   </div>
